@@ -4,4 +4,9 @@ class Item < ActiveRecord::Base
   has_many :carts, through: :line_items
   belongs_to :category
 
+  def self.available_items
+    self.all.collect do |i|
+      i if i.inventory > 0 
+    end
+  end
 end

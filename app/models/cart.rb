@@ -3,7 +3,11 @@ class Cart < ActiveRecord::Base
   has_many :line_items
   has_many :items, through: :line_items
   belongs_to :user
-  enum status: [:open, :closed]
+
+  validates :status, inclusion: { in: %w(open submitted) }  
+  after_initialize :set_status
+
+  enum status: [:open, :submitted]
 
   def add_item(item_id)
     # creates a new unsaved line_item for new item (FAILED - 4)
@@ -18,6 +22,12 @@ class Cart < ActiveRecord::Base
       price += item.price
     end
     price
+  end
+
+  private
+
+  def set_status
+    self.status ||= 0
   end
 
 end

@@ -1,8 +1,8 @@
 <nav class="">
     <ul>
         <li> <%= link_to "Store Home", store_path %> </li>
-        <% if !!@cart %>
-          <li> <%= link_to "Cart", cart_path(current_cart) %></li>
+        <% if !!@cart || current_user %>
+          <li> <%= link_to "Cart", cart_path(current_user.current_cart) %></li>
         <% end %>
         <li><%= link_to "sign in", new_user_session_path %></li>
         <li> <%= link_to "Sign up", new_user_registration_path %></li>
@@ -10,8 +10,5 @@
         <% if current_user %>
           <li> Signed in as <%= current_user.email %> </li>
         <% end %>
-        <%#if current_user.current_cart %>
-          <li> <%#= link_to "Cart", cart_path(current_user.current_cart) %></li>
-        <%#end %>
     </ul>
 </nav>

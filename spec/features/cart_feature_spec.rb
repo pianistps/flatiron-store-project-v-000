@@ -47,12 +47,12 @@ describe 'Feature Test: Cart', :type => :feature do
        expect(@second_item.inventory).to eq(second_item_inventory_before-3)
      end
 
-     it "sets current_cart to nil on checkout" do
+     it "creates new, empty current_cart on checkout" do
        visit cart_path(@user.current_cart)
        click_button("Checkout")
 
        @user.reload
-       expect(@user.current_cart).to be_nil 
+       expect(@user.current_cart.line_items.size).to eq(0)
      end
     end
   end
@@ -62,15 +62,6 @@ describe 'Feature Test: Cart', :type => :feature do
       before(:each) do
         @user = User.first
         login_as(@user, scope: :user)
-      end
-
-      it "Doesn't show Cart link when there is no current cart" do
-        cart = @user.carts.create(status: "submitted")
-        first_item = Item.first
-        first_item.line_items.create(quantity: 1, cart: cart)
-        @user.current_cart = nil
-        visit store_path
-        expect(page).to_not have_link("Cart")
       end
 
       it "Does show Cart link when there is a current cart" do
@@ -140,7 +131,7 @@ describe 'Feature Test: Cart', :type => :feature do
 
       it "Updates quantity when selecting the same item twice" do
         first_item = Item.first
-        2.times do 
+        2.times do
           visit store_path
           within("form[action='#{line_items_path(item_id: first_item)}']") do
             click_button("Add to Cart")

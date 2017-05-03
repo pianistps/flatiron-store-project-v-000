@@ -2,6 +2,7 @@ class CartsController < ApplicationController
 
   def show
     @cart = Cart.find(params[:id])
+    # raise @cart.inspect
   end
 
   def checkout

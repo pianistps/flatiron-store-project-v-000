@@ -31,9 +31,9 @@ class Cart < ActiveRecord::Base
     self.status = "submitted"
     self.save
   end
-  #subtract quantity from inventory
-  #set current cart_cart to nil
-  #set current cart status to "submitted"
+  # [ ] subtract quantity from inventory
+  # [ ] set current cart_cart to nil
+  # [x] set current cart status to "submitted"
 
   private
 

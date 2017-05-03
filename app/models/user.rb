@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   def current_cart
     if self.carts.exists?(status: 'open')
       self.carts.find_by(status: 'open')
-    # else
-    #   self.carts.create(status: 'open')
+    else
+      self.carts.create(status: 'open')
     end
   end
 

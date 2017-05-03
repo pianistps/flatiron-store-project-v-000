@@ -22,17 +22,19 @@ class Cart < ActiveRecord::Base
   def total
     price = 0.00
     self.line_items.each do |line_item|
-      price += line_item.quantity * Item.find(line_item.item_id).price
+      price += line_item.quantity * line_item.item.price
     end
     price
   end
 
   def checkout
+    self.line_items.each do |line_item|
+      line_item.item.inventory -= line_item.quantity
+      line_item.item.save
+    end
     self.status = "submitted"
     self.save
   end
-  # [ ] subtract quantity from inventory
-  # [x] set current cart status to "submitted"
 
   private
 

@@ -3,6 +3,7 @@ class Cart < ActiveRecord::Base
   has_many :line_items
   has_many :items, through: :line_items
   belongs_to :user
+  enum status: [:open, :closed]
 
   def add_item(item_id)
     # creates a new unsaved line_item for new item (FAILED - 4)

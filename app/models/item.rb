@@ -5,8 +5,6 @@ class Item < ActiveRecord::Base
   belongs_to :category
 
   def self.available_items
-    self.all.collect do |i|
-      i if i.inventory > 0 
-    end
+    self.all.select { |i| i if i.inventory > 0 }
   end
 end
